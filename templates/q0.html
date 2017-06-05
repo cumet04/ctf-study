@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>q0</title>
+</head>
+<body>
+	<h2>q0</h2>
+	<section>
+        <form action="#" method="GET">
+            <label for="keyword">keyword: 
+                <input type="text" name="keyword" id="keyword" required>
+            </label>
+            <input type="submit" name="submit" value="search">
+        </form>
+	</section>
+
+	<section>
+        {% autoescape false %}
+        <h3>{{keyword}} の検索結果</h3>
+		<p>検索結果は <var>0</var> 件です。</p>
+        {% endautoescape %}
+	</section>
+</body>
+</html>

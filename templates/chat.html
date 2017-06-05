@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>chat</title>
+	<script src="./js/chat.js"></script>
+</head>
+<body>
+	<h3>test-chat</h3>
+	<section>
+        <form onsubmit="return false;">
+            <label for="name">name: 
+                <input type="text" name="name" id="name" required>
+            </label>
+            <label for="content">say:
+                <input type="text" name="content" id="content" required></p>
+            </label>
+            <input type="submit" name="submit" value="submit">
+        </form>
+	</section>
+
+	<section>
+	<table>
+		<thead><tr><th>id<th>time<th>name<th>content</tr></thead>
+		<tbody id="posts">
+			{% autoescape false %}
+			{% for post in posts %}
+				<tr>
+					<td>{{post.id}}</td>
+					<td>{{post.timestamp}}</td>
+					<td>{{post.name}}</td>
+					<td>{{post.content}}</td>
+				</tr>
+			{% endfor %}
+			{% endautoescape %}
+		</tbody>
+	</table>
+	</section>
+</body>
+</html>

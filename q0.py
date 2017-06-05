@@ -14,7 +14,7 @@ def static_redirect():
 @server.route('/%s/%s' % (URL_PREFIX, FILE_NAME), methods=['GET'])
 def show():
     keyword = request.args.get('keyword', default='', type=str)
-    return render_template(FILE_NAME, keyword=keyword)
+    return render_template('search.html', keyword=keyword)
 
 
 def main():

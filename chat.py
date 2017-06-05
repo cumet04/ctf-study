@@ -1,7 +1,7 @@
 import argparse
 import sqlite3
 from datetime import datetime, timedelta
-from flask import Flask, request, jsonify, Response, redirect, render_template
+from flask import Flask, request, jsonify, redirect, render_template
 
 STATIC_PREFIX = 'ctf-study-xss'
 API_PREFIX = 'ctf-study-xss/api/chat'

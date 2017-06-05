@@ -1,5 +1,5 @@
 import argparse
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, make_response
 
 URL_PREFIX = 'ctf-study-xss'
 FILE_NAME = 'q.html'
@@ -14,7 +14,11 @@ def static_redirect():
 @server.route('/%s/%s' % (URL_PREFIX, FILE_NAME), methods=['GET'])
 def show():
     keyword = request.args.get('keyword', default='', type=str)
-    return render_template('search.html', keyword=sanitize(keyword))
+    res = make_response(render_template(
+        'search.html', keyword=sanitize(keyword)))
+    res.set_cookie('flag', value="cookies are here !",
+                   secure=None, httponly=False)
+    return res
 
 
 def sanitize_0(keyword):

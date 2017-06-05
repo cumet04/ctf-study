@@ -14,32 +14,33 @@ def static_redirect():
 @server.route('/%s/%s' % (URL_PREFIX, FILE_NAME), methods=['GET'])
 def show():
     keyword = request.args.get('keyword', default='', type=str)
-    res = make_response(resp(keyword))
+    res1 = resp(keyword)
+    res = make_response(resp(keyword, str(res1)))
     res.set_cookie('flag', value="cookies are here !",
                    secure=None, httponly=False)
     return res
 
 
-def resp_0(keyword):
-    return render_template('search.html', keyword=keyword)
+def resp_0(keyword, source=""):
+    return render_template('search.html', keyword=keyword, source=source)
 
 
-def resp_1(keyword):
+def resp_1(keyword, source=""):
     if keyword.startswith('<script>') and keyword.endswith('</script>'):
         keyword = keyword[8:-9]
-    return render_template('search.html', keyword=keyword)
+    return render_template('search.html', keyword=keyword, source=source)
 
 
-def resp_2(keyword):
+def resp_2(keyword, source=""):
     keyword = keyword.replace('<', '&lt;')
     keyword = keyword.replace('>', '&gt;')
-    return render_template('search.html', keyword=keyword)
+    return render_template('search.html', keyword=keyword, source=source)
 
 
-def resp_3(keyword):
+def resp_3(keyword, source=""):
     keyword = keyword.replace('<', '&lt;')
     keyword = keyword.replace('>', '&gt;')
-    return render_template('search2.html', keyword=keyword)
+    return render_template('search2.html', keyword=keyword, source=source)
 
 
 def main():

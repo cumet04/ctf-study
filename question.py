@@ -14,27 +14,32 @@ def static_redirect():
 @server.route('/%s/%s' % (URL_PREFIX, FILE_NAME), methods=['GET'])
 def show():
     keyword = request.args.get('keyword', default='', type=str)
-    res = make_response(render_template(
-        'search.html', keyword=sanitize(keyword)))
+    res = make_response(resp(keyword))
     res.set_cookie('flag', value="cookies are here !",
                    secure=None, httponly=False)
     return res
 
 
-def sanitize_0(keyword):
-    return keyword
+def resp_0(keyword):
+    return render_template('search.html', keyword=keyword)
 
 
-def sanitize_1(keyword):
+def resp_1(keyword):
     if keyword.startswith('<script>') and keyword.endswith('</script>'):
         keyword = keyword[8:-9]
-    return keyword
+    return render_template('search.html', keyword=keyword)
 
 
-def sanitize_2(keyword):
+def resp_2(keyword):
     keyword = keyword.replace('<', '&lt;')
     keyword = keyword.replace('>', '&gt;')
-    return keyword
+    return render_template('search.html', keyword=keyword)
+
+
+def resp_3(keyword):
+    keyword = keyword.replace('<', '&lt;')
+    keyword = keyword.replace('>', '&gt;')
+    return render_template('search2.html', keyword=keyword)
 
 
 def main():
@@ -49,12 +54,13 @@ def main():
         '--sanitize', type=int, default=0, help="sanitize level")
     params = parser.parse_args()
 
-    funcs = [sanitize_0, sanitize_1, sanitize_2]
-    global sanitize
-    sanitize = funcs[params.sanitize]
+    funcs = [resp_0, resp_1, resp_2, resp_3]
+    global resp
+    resp = funcs[params.sanitize]
 
     try:
-        server.run(host=params.host, port=params.port, debug=params.debug)
+        server.run(host=params.host, port=params.port,
+                   debug=params.debug)
     except KeyboardInterrupt:
         pass
 

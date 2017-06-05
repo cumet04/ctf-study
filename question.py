@@ -2,7 +2,7 @@ import argparse
 from flask import Flask, request, redirect, render_template
 
 URL_PREFIX = 'ctf-study-xss'
-FILE_NAME = 'q0.html'
+FILE_NAME = 'q.html'
 server = Flask(__name__, static_url_path='/%s' % URL_PREFIX)
 
 
@@ -17,7 +17,19 @@ def show():
     return render_template('search.html', keyword=sanitize(keyword))
 
 
-def sanitize(keyword):
+def sanitize_0(keyword):
+    return keyword
+
+
+def sanitize_1(keyword):
+    if keyword.startswith('<script>') and keyword.endswith('</script>'):
+        keyword = keyword[8:-9]
+    return keyword
+
+
+def sanitize_2(keyword):
+    keyword = keyword.replace('<', '&lt;')
+    keyword = keyword.replace('>', '&gt;')
     return keyword
 
 
@@ -29,7 +41,13 @@ def main():
         '--port', type=int, default=50000, help="server's port")
     parser.add_argument(
         '--debug', action='store_true', help="run server with debug mode")
+    parser.add_argument(
+        '--sanitize', type=int, default=0, help="sanitize level")
     params = parser.parse_args()
+
+    funcs = [sanitize_0, sanitize_1, sanitize_2]
+    global sanitize
+    sanitize = funcs[params.sanitize]
 
     try:
         server.run(host=params.host, port=params.port, debug=params.debug)

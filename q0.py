@@ -14,7 +14,11 @@ def static_redirect():
 @server.route('/%s/%s' % (URL_PREFIX, FILE_NAME), methods=['GET'])
 def show():
     keyword = request.args.get('keyword', default='', type=str)
-    return render_template('search.html', keyword=keyword)
+    return render_template('search.html', keyword=sanitize(keyword))
+
+
+def sanitize(keyword):
+    return keyword
 
 
 def main():

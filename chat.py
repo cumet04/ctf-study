@@ -139,7 +139,7 @@ def main():
 
     try:
         # CORS(server, resources={r"/*": {"origins": "*"}})
-        server.run(host=params.host, port=params.port, debug=params.debug)
+        server.run(host=params.host, port=params.port, debug=params.debug, threaded=True)
     except KeyboardInterrupt:
         pass
 

@@ -61,7 +61,7 @@ def main():
 
     try:
         server.run(host=params.host, port=params.port,
-                   debug=params.debug)
+                   debug=params.debug, threaded=True)
     except KeyboardInterrupt:
         pass
 
